@@ -29,7 +29,7 @@ learning_rate = 1e-4
 pbar1 = tqdm(range(100), unit="epoch")
 pbar1.set_description("Epoch")
 for epoch in pbar1:
-    pbar2 = tqdm(range(200), unit="iteration")
+    pbar2 = tqdm(range(2000), unit="iteration")
     pbar2.set_description("Iteration")
     for iterate in pbar2:
         # Forward pass: compute predicted y by passing x to the model. Module objects
