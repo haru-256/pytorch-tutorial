@@ -26,12 +26,17 @@ def weights_init(m):
         m.bias.data.normal_(0, 0.02)
 
 
-def train_model(model, dataloader, criterion, optimizer, num_epochs, device, scheduler=None):
+def train_model(model, datasets, criterion, optimizer, num_epochs, batch_size, device, scheduler=None):
     since = datetime.datetime.now()
     epochs = tqdm(range(num_epochs), desc="Epoch", unit='epoch')
     phases = ['train', 'val']
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
+    # construct dataloader
+    dataloader = {phase: torch.utils.data.DataLoader(datasets[phase], batch_size=batch_size,
+                                                     shuffle=(phase == 'train'), num_workers=0)
+                  for phase in ['train', 'val']}
+    dataset_sizes={phase: len(datasets[phase]) for phase in ['train', 'val']}
     # train loop
     for epoch in epochs:
         for phase in phases:
@@ -70,8 +75,8 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs, device, sch
                     # statistics
                 train_loss += loss.item() * inputs.size(0)
                 train_acc += torch.sum(preds == labels.data)
-            epoch_loss = train_loss / len(inputs)
-            epoch_acc = train_acc.double() / len(inputs)
+            epoch_loss = train_loss / dataset_sizes[phase]
+            epoch_acc = train_acc.double() / dataset_sizes[phase]
             tqdm.write('{} Epoch: {} Loss: {:.4f} Acc: {:.4f}'.format(
                 epoch, phase.capitalize(), epoch_loss, epoch_acc))
             # deep copy the model

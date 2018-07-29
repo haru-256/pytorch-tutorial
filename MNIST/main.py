@@ -76,10 +76,6 @@ if __name__ == '__main__':
                                         download=True,
                                         transform=data_transform[phase])
                   for phase in ['train', 'val']}
-    # construct dataloader
-    dataloader = {phase: torch.utils.data.DataLoader(mnist_data[phase], batch_size=batch_size,
-                                                     shuffle=(phase == 'train'), num_workers=0)
-                  for phase in ['train', 'val']}
 
     # build model
     model = CNNforMNIST().to(device)
@@ -92,5 +88,5 @@ if __name__ == '__main__':
                               eps=1e-08)
     criterion = nn.CrossEntropyLoss()
     # train model
-    best_model = train_model(model=model, dataloader=dataloader,
-                             criterion=criterion, optimizer=optimizer, device=device, num_epochs=epoch)
+    best_model = train_model(model=model, datasets=mnist_data,
+                             criterion=criterion, optimizer=optimizer, device=device, num_epochs=epoch, batch_size=batch_size)
