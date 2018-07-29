@@ -88,5 +88,5 @@ if __name__ == '__main__':
                               eps=1e-08)
     criterion = nn.CrossEntropyLoss()
     # train model
-    best_model = train_model(model=model, datasets=mnist_data,
-                             criterion=criterion, optimizer=optimizer, device=device, num_epochs=epoch, batch_size=batch_size)
+    best_model = train_model(model=model, datasets=mnist_data, criterion=criterion,
+                             optimizer=optimizer, device=device, num_epochs=epoch, batch_size=batch_size)

@@ -36,7 +36,7 @@ def train_model(model, datasets, criterion, optimizer, num_epochs, batch_size, d
     dataloader = {phase: torch.utils.data.DataLoader(datasets[phase], batch_size=batch_size,
                                                      shuffle=(phase == 'train'), num_workers=0)
                   for phase in ['train', 'val']}
-    dataset_sizes={phase: len(datasets[phase]) for phase in ['train', 'val']}
+    dataset_sizes = {phase: len(datasets[phase]) for phase in ['train', 'val']}
     # train loop
     for epoch in epochs:
         for phase in phases:
